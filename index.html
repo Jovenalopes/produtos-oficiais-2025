@@ -11,10 +11,18 @@
       box-sizing: border-box;
     }
 
+    html, body {
+      height: 100%;
+      width: 100%;
+    }
+
     body {
       font-family: Arial, sans-serif;
-      background: url('fundo.png') no-repeat center center fixed;
-      background-size: cover;
+      background-image: url('imagemfundo.png');
+      background-size: cover; /* Ajusta para preencher a tela */
+      background-position: center; /* Centraliza */
+      background-repeat: no-repeat; /* Evita repetição */
+      background-attachment: fixed; /* Mantém fixa no desktop */
       color: #fff;
       display: flex;
       align-items: center;
@@ -22,6 +30,15 @@
       min-height: 100vh;
       text-align: center;
       padding: 20px;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Para mobile, evita bugs com background fixo */
+    @media (max-width: 768px) {
+      body {
+        background-attachment: scroll;
+      }
     }
 
     .container {
@@ -129,7 +146,7 @@
     <h1>🧠 Discover the Power of NeuroPrime</h1>
     <p>Promote this premium brain health formula and earn big commissions.</p>
     <p>Safe, effective and now available to promote through ClickBank.</p>
-    <a href="https://831aedv6hnx980jmop-j1eudiq.hop.clickbank.net" target="_blank">
+    <a href="https://831aedv6hnx980jmop-j1eudiq.hop.clickbank.net" target="_blank" rel="noopener noreferrer">
       <button>Learn More</button>
     </a>
     <footer>
@@ -140,22 +157,30 @@
   </div>
 
   <!-- Cookie Consent -->
-  <div id="cookieBanner">
+  <div id="cookieBanner" role="dialog" aria-live="polite">
     <span>This website uses cookies to ensure you get the best experience.</span>
-    <button onclick="acceptCookies()">Accept</button>
+    <button onclick="acceptCookies()" aria-label="Accept cookies">Accept</button>
   </div>
 
   <script>
     function acceptCookies() {
       document.getElementById('cookieBanner').style.display = 'none';
-      localStorage.setItem('cookiesAccepted', 'true');
-    }
-
-    window.onload = function() {
-      if (localStorage.getItem('cookiesAccepted') === 'true') {
-        document.getElementById('cookieBanner').style.display = 'none';
+      try {
+        localStorage.setItem('cookiesAccepted', 'true');
+      } catch(e) {
+        // localStorage pode falhar em modos restritos
       }
     }
+
+    window.addEventListener('load', function() {
+      try {
+        if (localStorage.getItem('cookiesAccepted') === 'true') {
+          document.getElementById('cookieBanner').style.display = 'none';
+        }
+      } catch(e) {
+        // fallback silencioso
+      }
+    });
   </script>
 
 </body>
